@@ -1,21 +1,297 @@
 <!doctype html>
 <html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>題庫練習</title><style>
-:root{--blue:#2563eb;--line:#d8e1ed;--good:#15803d;--bad:#b91c1c}*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#172033;font:16px system-ui,-apple-system,"Noto Sans TC",sans-serif}.app{max-width:760px;min-height:100vh;margin:auto;background:#fff}header{padding:18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}h1{font-size:1.2rem;margin:0}h2{font-size:1.07rem;margin:0 0 10px}main{padding:16px}.tabs,.row,.actions,.top,.meta{display:flex;gap:9px}.tabs{padding:12px 16px;overflow:auto;border-bottom:1px solid var(--line)}.meta,.top{justify-content:space-between;align-items:center}.meta{color:#64748b;font-size:.9rem}.row>*{flex:1}.actions{margin-top:14px}.actions button{flex:1}.card{border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:16px}.headerActions{display:flex;gap:8px}.tiny{min-height:36px;padding:7px 10px;font-size:.82rem}.hidden{display:none!important}label{display:block;margin:12px 0 6px;font-weight:700;font-size:.9rem}input,select,button{font:inherit}input,select{width:100%;padding:11px;border:1px solid #b8c6d8;border-radius:10px}button{min-height:43px;padding:10px 13px;border:0;border-radius:10px;background:#e8eef7;color:#26354a;font-weight:700;cursor:pointer}.primary,.active{background:var(--blue);color:#fff}.danger{background:#fee2e2;color:#991b1b}.hint,.empty{color:#64748b;line-height:1.6;font-size:.9rem}.privacy{border-left:4px solid #16a34a;background:#f0fdf4;color:#14532d;padding:12px;line-height:1.6;font-size:.9rem}.question{white-space:pre-wrap;font-size:1.1rem;line-height:1.75;margin:15px 0}.options{display:grid;gap:9px}.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;background:white;border:1px solid #cbd5e1}.opt input{width:auto;margin-top:4px}.selected{border-color:var(--blue);background:#eff6ff}.correct{border-color:#22c55e;background:#f0fdf4}.wrong{border-color:#ef4444;background:#fef2f2}.status{margin-top:12px;padding:11px;border-radius:10px}.ok{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}.progress{height:7px;background:#e5e7eb;border-radius:10px;margin:14px 0}.progress i{display:block;height:100%;background:var(--blue)}.star{min-height:auto;background:#fff7ed;color:#a16207}.marked{background:#f59e0b;color:white}.item{padding:13px 0;border-bottom:1px solid var(--line)}.reviewOption{padding:7px 10px;margin:5px 0;border-radius:8px;background:#f8fafc}.reviewCorrect{background:#dcfce7;color:#166534;font-weight:700}@media(max-width:480px){main,header,.tabs{padding-left:13px;padding-right:13px}.card{padding:13px}}
-</style></head><body><div class="app"><header><h1>題庫練習</h1><div class="headerActions"><button id="erase" class="danger tiny">清除資料</button><button id="home" class="hidden">回設定</button></div></header><nav class="tabs"><button class="tab active" data-page="setup">開始練習</button><button class="tab" data-page="wrong">錯題複習</button><button class="tab" data-page="marked">標記題目</button><button class="tab" data-page="markedReview">標記題目複習</button></nav><main>
+:root{--blue:#2563eb;--line:#d8e1ed;--good:#15803d;--bad:#b91c1c}*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#172033;font:16px system-ui,-apple-system,"Noto Sans TC",sans-serif}.app{max-width:760px;min-height:100vh;margin:auto;background:#fff}header{padding:18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}h1{font-size:1.2rem;margin:0}h2{font-size:1.07rem;margin:0 0 10px}main{padding:16px}.tabs,.row,.actions,.top,.meta{display:flex;gap:9px}.tabs{padding:12px 16px;overflow:auto;border-bottom:1px solid var(--line)}.meta,.top{justify-content:space-between;align-items:center}.meta{color:#64748b;font-size:.9rem}.row>*{flex:1}.actions{margin-top:14px}.actions button{flex:1}.card{border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:16px}.headerActions{display:flex;gap:8px}.tiny{min-height:36px;padding:7px 10px;font-size:.82rem}.hidden{display:none!important}label{display:block;margin:12px 0 6px;font-weight:700;font-size:.9rem}input,select,button{font:inherit}input,select{width:100%;padding:11px;border:1px solid #b8c6d8;border-radius:10px}button{min-height:43px;padding:10px 13px;border:0;border-radius:10px;background:#e8eef7;color:#26354a;font-weight:700;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.primary,.active{background:var(--blue);color:#fff}.danger{background:#fee2e2;color:#991b1b}.hint,.empty{color:#64748b;line-height:1.6;font-size:.9rem}.privacy{border-left:4px solid #16a34a;background:#f0fdf4;color:#14532d;padding:12px;line-height:1.6;font-size:.9rem}.question{white-space:pre-wrap;font-size:1.1rem;line-height:1.75;margin:15px 0}.options{display:grid;gap:9px}.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;background:white;border:1px solid #cbd5e1}.opt input{width:auto;margin-top:4px}.selected{border-color:var(--blue);background:#eff6ff}.correct{border-color:#22c55e;background:#f0fdf4}.wrong{border-color:#ef4444;background:#fef2f2}.status{margin-top:12px;padding:11px;border-radius:10px}.ok{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}.progress{height:7px;background:#e5e7eb;border-radius:10px;margin:14px 0}.progress i{display:block;height:100%;background:var(--blue)}.star{min-height:auto;background:#fff7ed;color:#a16207}.marked{background:#f59e0b;color:white}.item{padding:13px 0;border-bottom:1px solid var(--line)}.reviewOption{padding:7px 10px;margin:5px 0;border-radius:8px;background:#f8fafc}.reviewCorrect{background:#dcfce7;color:#166534;font-weight:700}@media(max-width:480px){main,header,.tabs{padding-left:13px;padding-right:13px}.card{padding:13px}}
+</style></head><body><div class="app"><header><h1>題庫練習</h1><div class="headerActions"><span id="restoreBackupWrap"></span><button id="erase" class="danger tiny">清除資料</button><button id="home" class="hidden">回設定</button></div></header><nav class="tabs"><button class="tab active" data-page="setup">開始練習</button><button class="tab" data-page="wrong">錯題複習</button><button class="tab" data-page="marked">標記題目</button><button class="tab" data-page="markedReview">標記題目複習</button></nav><main>
 <section id="setup"><div class="card"><h2>匯入題庫</h2><p class="hint">請選擇 JSON 題庫檔。</p><input id="file" type="file" accept=".json,application/json"><div id="notice"></div></div><div class="card"><h2>測驗設定</h2><p id="bankInfo" class="empty">請先匯入題庫。</p><div id="settings" class="hidden"><div class="row"><div><label>起始題號</label><input id="first" type="number"></div><div><label>結束題號</label><input id="last" type="number"></div></div><label>測驗題數</label><input id="amount" type="number" min="1"><label>出題順序</label><select id="sort"><option value="random">隨機抽題</option><option value="number">依題號順序</option></select><div class="actions"><button id="begin" class="primary">開始測驗</button></div></div></div></section>
 <section id="practice" class="hidden"><div id="quiz" class="card"></div></section><section id="wrong" class="hidden"><div class="card"><h2>錯題複習</h2><div id="wrongList"></div></div></section><section id="marked" class="hidden"><div class="card"><h2>標記題目</h2><div id="markedList"></div></div></section><section id="markedReview" class="hidden"><div class="card"><h2>標記題目複習</h2><div id="markedReviewContent"></div></div></section></main></div><script>
-(()=>{const BK='privateQuizBank1',RK='privateQuizRecord1',$=s=>document.querySelector(s),safe=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let bank=load(BK,[]),record=load(RK,{wrong:{},marked:{},errors:{}}),round=[],pos=0,answered=false;if(!record||typeof record!=='object')record={};if(!record.wrong)record.wrong={};if(!record.marked)record.marked={};if(!record.errors)record.errors={};function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch{return d}}function save(){localStorage.setItem(BK,JSON.stringify(bank));localStorage.setItem(RK,JSON.stringify(record))}function key(q){return ''+q.questionNumber}function shuffle(items){let a=items.slice();for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}function answerText(q,answers){return answers.map(n=>{let o=q.options.find(x=>x.optionNumber===n);return o?o.text:''}).join('；')}function details(q){return '<div class="question">'+safe(q.question)+'</div><div class="hint">'+q.options.map(o=>'<div class="reviewOption '+(q.answer.includes(o.optionNumber)?'reviewCorrect':'')+'">'+safe(o.optionNumber+'. '+o.text)+'</div>').join('')+'</div>'}function check(data){if(!Array.isArray(data)||!data.length)throw Error('JSON 必須是至少一題的陣列。');let numbers=new Set;data.forEach((q,n)=>{if(!Number.isInteger(q.questionNumber)||numbers.has(q.questionNumber))throw Error(`第 ${n+1} 筆題號須為唯一整數。`);numbers.add(q.questionNumber);if(typeof q.question!=='string'||!Array.isArray(q.options)||!q.options.length||!Array.isArray(q.answer)||!q.answer.length)throw Error(`第 ${q.questionNumber} 題缺少必要欄位。`);let ops=new Set(q.options.map(o=>o.optionNumber));if(!q.options.every(o=>Number.isInteger(o.optionNumber)&&typeof o.text==='string')||!q.answer.every(a=>Number.isInteger(a)&&ops.has(a)))throw Error(`第 ${q.questionNumber} 題選項或答案有誤。`)});return data.sort((a,b)=>a.questionNumber-b.questionNumber)}function update(){let yes=bank.length;$('#settings').classList.toggle('hidden',!yes);$('#bankInfo').textContent=yes?`已載入 ${bank.length} 題（題號 ${bank[0].questionNumber}～${bank.at(-1).questionNumber}）`:'請先匯入題庫。';if(yes){$('#first').value=bank[0].questionNumber;$('#last').value=bank.at(-1).questionNumber;$('#amount').value=bank.length}}$('#file').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{bank=check(JSON.parse(await f.text()));save();update();$('#notice').innerHTML=`<p class="status ok">已匯入 ${bank.length} 題；舊紀錄已清除。</p>`}catch(err){$('#notice').innerHTML=`<p class="status bad">匯入失敗：${safe(err.message)}</p>`}e.target.value=''};$('#erase').onclick=()=>{if(confirm('確定清除這台裝置的題庫、錯題與標記？此動作不能復原。')){bank=[];record={wrong:{},marked:{},errors:{}};localStorage.removeItem(BK);localStorage.removeItem(RK);update();$('#notice').innerHTML='<p class="status">本機資料已清除。</p>'}};function page(name){['setup','practice','wrong','marked','markedReview'].forEach(x=>$('#'+x).classList.toggle('hidden',x!==name));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page===name));$('#home').classList.toggle('hidden',name==='setup');if(name==='wrong'||name==='marked')showList(name);if(name==='markedReview')showMarkedReview()}$('.tabs').onclick=e=>e.target.dataset.page&&page(e.target.dataset.page);$('#home').onclick=()=>page('setup');$('#begin').onclick=()=>{let a=+$('#first').value,b=+$('#last').value,n=+$('#amount').value,p=bank.filter(q=>q.questionNumber>=a&&q.questionNumber<=b);if(!p.length||!Number.isInteger(n)||n<1)return alert('請輸入有效的題號範圍與題數。');if($('#sort').value==='random')p.sort(()=>Math.random()-.5);else p.sort((x,y)=>x.questionNumber-y.questionNumber);round=p.slice(0,Math.min(n,p.length));pos=0;answered=false;page('practice');render()};function render(){let q=round[pos],multi=q.answer.length>1,mark=!!record.marked[key(q)],displayOptions=shuffle(q.options);$('#quiz').innerHTML=`<div class="top"><div class="meta"><span>第 ${pos+1}/${round.length} 題</span><span>題號 ${q.questionNumber}${multi?'（複選）':''}</span></div><button id="mark" class="star ${mark?'marked':''}">${mark?'★ 已標記':'☆ 標記題目'}</button></div><div class="progress"><i style="width:${pos/round.length*100}%"></i></div><div class="question">${safe(q.question)}</div><div class="options">${displayOptions.map((o,shownIndex)=>`<button class="opt" data-option="${o.optionNumber}"><input type="${multi?'checkbox':'radio'}" name="answer" value="${o.optionNumber}"><span><b>${shownIndex+1}.</b> ${safe(o.text)}</span></button>`).join('')}</div><div id="feedback"></div><div class="actions"><button id="submit" class="primary">確認答案</button><button id="next" class="primary hidden">${pos===round.length-1?'完成測驗':'下一題'}</button></div>`;$('#mark').onclick=()=>{record.marked[key(q)]=!record.marked[key(q)];if(!record.marked[key(q)])delete record.marked[key(q)];save();render()};document.querySelectorAll('.opt').forEach(b=>b.onclick=e=>{e.preventDefault();if(answered)return;let x=b.querySelector('input');if(multi)x.checked=!x.checked;else{document.querySelectorAll('.opt input').forEach(y=>y.checked=false);x.checked=true}document.querySelectorAll('.opt').forEach(y=>y.classList.toggle('selected',y.querySelector('input').checked))});$('#submit').onclick=()=>grade(q)}function grade(q){let chosen=[...document.querySelectorAll('.opt input:checked')].map(x=>+x.value).sort((a,b)=>a-b),ans=[...q.answer].sort((a,b)=>a-b);if(!chosen.length)return alert('請先選擇答案。');answered=true;let ok=chosen.length===ans.length&&chosen.every((x,i)=>x===ans[i]);if(ok)delete record.wrong[key(q)];else{record.wrong[key(q)]={time:Date.now(),selected:chosen};record.errors[key(q)]=(record.errors[key(q)]||0)+1;record.marked[key(q)]=true}save();document.querySelectorAll('.opt').forEach(b=>{let n=+b.dataset.option;if(ans.includes(n))b.classList.add('correct');if(chosen.includes(n)&&!ans.includes(n))b.classList.add('wrong');b.disabled=true});$('#feedback').innerHTML='';$('#submit').classList.add('hidden');let next=$('#next');next.classList.remove('hidden');next.onclick=()=>{if(pos===round.length-1){page('setup');alert('測驗完成！')}else{pos++;answered=false;render()}}}function startWrong(){round=bank.filter(q=>record.wrong[key(q)]);if(!round.length){alert('目前沒有需要複習的錯題。');return}pos=0;answered=false;page('practice');render()}function startMarkedReview(){round=bank.filter(q=>record.marked[key(q)]);if(!round.length){alert('目前沒有需要複習的標記題目。');return}pos=0;answered=false;page('practice');render()}function showMarkedReview(){let items=bank.filter(q=>record.marked[key(q)]),target=$('#markedReviewContent');if(!items.length){target.innerHTML='<p class="empty">目前沒有標記題目。</p>';return}target.innerHTML=`<p class="hint">共 ${items.length} 題標記題目。答錯會持續累計錯誤次數；答對不會自動移除標記。</p><div class="actions"><button id="reviewMarked" class="primary">開始標記題目複習</button></div>`;$('#reviewMarked').onclick=startMarkedReview}function showList(type){let items=bank.filter(q=>(type==='wrong'?record.wrong:record.marked)[key(q)]),target=$('#'+type+'List');if(type==='marked')items.sort((a,b)=>(record.errors[key(b)]||0)-(record.errors[key(a)]||0)||a.questionNumber-b.questionNumber);if(!items.length){target.innerHTML=`<p class="empty">目前沒有${type==='wrong'?'錯題':'標記題目'}。</p>`;return}if(type==='wrong'){target.innerHTML=`<p class="hint">共 ${items.length} 題待複習。答對後會自錯題清單移除；錯誤次數仍會保留在標記題目中。</p><div class="actions"><button id="reviewWrong" class="primary">開始錯題複習</button></div>`;$('#reviewWrong').onclick=startWrong;return}target.innerHTML=items.map(q=>`<div class="item"><div class="top"><b>題號 ${q.questionNumber}</b><button class="danger removeMark" data-number="${q.questionNumber}">移除標記</button></div>${details(q)}<p class="hint"><b>錯誤次數：</b>${record.errors[key(q)]||0} 次</p></div>`).join('');target.querySelectorAll('.removeMark').forEach(b=>b.onclick=()=>{delete record.marked[String(b.dataset.number)];save();showList('marked')})}update()})();
+(()=>{
+const BK='privateQuizBank1', RK='privateQuizRecord1', $=s=>document.querySelector(s);
+const safe=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let bank=load(BK,[]);
+let record=load(RK,{wrong:{},marked:{},errors:{}});
+if(!record||typeof record!=='object')record={};
+if(!record.wrong)record.wrong={};
+if(!record.marked)record.marked={};
+if(!record.errors)record.errors={};
+
+let round=[],pos=0;
+let states=[];      // 每一題的作答狀態快取：null（尚未作答）或 {chosen:[...], correct:bool}
+let optionOrder=[]; // 每一題的選項顯示順序快取，避免重新 render 時選項亂跳
+
+function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch{return d}}
+function save(){localStorage.setItem(BK,JSON.stringify(bank));localStorage.setItem(RK,JSON.stringify(record))}
+
+// 用「題號 + 題目內容」組成唯一鍵，避免不同批次題庫中題號重複、但題目不同時互相覆蓋
+function key(q){return q.questionNumber+'::'+q.question}
+// 新版的 key 一定含有 '::'；舊版（純題號字串）不會，用這個判斷是不是舊資料
+function isNewKey(k){return k.indexOf('::')!==-1}
+
+// 把舊格式（key=純題號、marked 值是 true、wrong 沒有 question 欄位）轉成新格式。
+// 需要目前的 bank 才能依題號找回題目內容，找不到的（例如題庫已清除或換過）只能略過。
+function migrateRecord(){
+  let changed=false, unresolved=0;
+  let newMarked={};
+  for(const k in record.marked){
+    const v=record.marked[k];
+    if(isNewKey(k)&&v&&typeof v==='object'&&v.options){newMarked[k]=v;continue}
+    changed=true;
+    const q=bank.find(x=>x.questionNumber===Number(k));
+    if(q)newMarked[key(q)]=q;else unresolved++
+  }
+  let newWrong={};
+  for(const k in record.wrong){
+    const v=record.wrong[k];
+    if(isNewKey(k)&&v&&v.question){newWrong[k]=v;continue}
+    changed=true;
+    const q=bank.find(x=>x.questionNumber===Number(k));
+    if(q)newWrong[key(q)]={time:v&&v.time||Date.now(),selected:v&&v.selected||[],question:q};else unresolved++
+  }
+  let newErrors={};
+  for(const k in record.errors){
+    if(isNewKey(k)){newErrors[k]=(newErrors[k]||0)+record.errors[k];continue}
+    changed=true;
+    const q=bank.find(x=>x.questionNumber===Number(k));
+    if(q)newErrors[key(q)]=(newErrors[key(q)]||0)+record.errors[k]
+  }
+  if(changed){
+    // 轉換前先備份一份原始資料。因為舊格式只有題號、沒有題目內容，
+    // 若題庫內容後來被更動過，用題號配對回來的結果可能配到錯的題目——
+    // 一旦發現轉換結果不對，可以用這份備份整批復原。
+    try{localStorage.setItem(RK+'_backup',JSON.stringify({wrong:record.wrong,marked:record.marked,errors:record.errors}))}catch{}
+    record.marked=newMarked;record.wrong=newWrong;record.errors=newErrors;
+    save();
+    return unresolved
+  }
+  return -1 // 代表沒有偵測到需要轉換的舊資料
+}
+
+function restoreBackup(){
+  let raw=localStorage.getItem(RK+'_backup');
+  if(!raw)return;
+  if(!confirm('確定要復原成轉換前的標記／錯題紀錄嗎？這會覆蓋掉目前的標記／錯題資料。'))return;
+  try{
+    let old=JSON.parse(raw);
+    record={wrong:old.wrong||{},marked:old.marked||{},errors:old.errors||{}};
+    localStorage.removeItem(RK+'_backup');
+    save();
+    $('#restoreBackupWrap').innerHTML='';
+    $('#notice').innerHTML='<p class="status">已復原為轉換前的紀錄。</p>'
+  }catch{
+    alert('復原失敗，備份資料格式有誤。')
+  }
+}
+
+function shuffle(items){let a=items.slice();for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function details(q){return '<div class="question">'+safe(q.question)+'</div><div class="hint">'+q.options.map(o=>'<div class="reviewOption '+(q.answer.includes(o.optionNumber)?'reviewCorrect':'')+'">'+safe(o.optionNumber+'. '+o.text)+'</div>').join('')+'</div>'}
+
+function check(data){
+  if(!Array.isArray(data)||!data.length)throw Error('JSON 必須是至少一題的陣列。');
+  let numbers=new Set;
+  data.forEach((q,n)=>{
+    if(!Number.isInteger(q.questionNumber)||numbers.has(q.questionNumber))throw Error(`第 ${n+1} 筆題號須為唯一整數。`);
+    numbers.add(q.questionNumber);
+    if(typeof q.question!=='string'||!Array.isArray(q.options)||!q.options.length||!Array.isArray(q.answer)||!q.answer.length)throw Error(`第 ${q.questionNumber} 題缺少必要欄位。`);
+    let ops=new Set(q.options.map(o=>o.optionNumber));
+    if(!q.options.every(o=>Number.isInteger(o.optionNumber)&&typeof o.text==='string')||!q.answer.every(a=>Number.isInteger(a)&&ops.has(a)))throw Error(`第 ${q.questionNumber} 題選項或答案有誤。`)
+  });
+  return data.sort((a,b)=>a.questionNumber-b.questionNumber)
+}
+
+function update(){
+  let yes=bank.length;
+  $('#settings').classList.toggle('hidden',!yes);
+  $('#bankInfo').textContent=yes?`已載入 ${bank.length} 題（題號 ${bank[0].questionNumber}～${bank.at(-1).questionNumber}）`:'請先匯入題庫。';
+  if(yes){$('#first').value=bank[0].questionNumber;$('#last').value=bank.at(-1).questionNumber;$('#amount').value=bank.length}
+}
+
+$('#file').onchange=async e=>{
+  let f=e.target.files[0];if(!f)return;
+  try{
+    bank=check(JSON.parse(await f.text()));
+    save();update();
+    $('#notice').innerHTML=`<p class="status ok">已匯入 ${bank.length} 題。先前的錯題／標記紀錄仍會保留，不會被覆蓋。</p>`
+  }catch(err){
+    $('#notice').innerHTML=`<p class="status bad">匯入失敗：${safe(err.message)}</p>`
+  }
+  e.target.value=''
+};
+
+$('#erase').onclick=()=>{
+  if(confirm('確定清除這台裝置的題庫、錯題與標記？此動作不能復原。')){
+    bank=[];record={wrong:{},marked:{},errors:{}};
+    localStorage.removeItem(BK);localStorage.removeItem(RK);
+    update();
+    $('#notice').innerHTML='<p class="status">本機資料已清除。</p>'
+  }
+};
+
+function page(name){
+  ['setup','practice','wrong','marked','markedReview'].forEach(x=>$('#'+x).classList.toggle('hidden',x!==name));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page===name));
+  $('#home').classList.toggle('hidden',name==='setup');
+  if(name==='wrong'||name==='marked')showList(name);
+  if(name==='markedReview')showMarkedReview()
+}
+$('.tabs').onclick=e=>e.target.dataset.page&&page(e.target.dataset.page);
+$('#home').onclick=()=>page('setup');
+
+function syncAmount(){
+  let a=+$('#first').value,b=+$('#last').value;
+  if(!Number.isFinite(a)||!Number.isFinite(b))return;
+  $('#amount').value=bank.filter(q=>q.questionNumber>=a&&q.questionNumber<=b).length
+}
+$('#first').oninput=syncAmount;
+$('#last').oninput=syncAmount;
+
+$('#begin').onclick=()=>{
+  let a=+$('#first').value,b=+$('#last').value,n=+$('#amount').value;
+  let p=bank.filter(q=>q.questionNumber>=a&&q.questionNumber<=b);
+  if(!p.length||!Number.isInteger(n)||n<1)return alert('請輸入有效的題號範圍與題數。');
+  p = $('#sort').value==='random' ? shuffle(p) : p.slice().sort((x,y)=>x.questionNumber-y.questionNumber);
+  startRound(p.slice(0,Math.min(n,p.length)))
+};
+
+function startRound(list){
+  round=list;pos=0;
+  states=round.map(()=>null);
+  optionOrder=round.map(()=>null);
+  page('practice');render()
+}
+
+function updateMarkButton(q){
+  let btn=$('#mark');if(!btn)return;
+  let marked=!!record.marked[key(q)];
+  btn.classList.toggle('marked',marked);
+  btn.textContent=marked?'★ 已標記':'☆ 標記題目'
+}
+
+function render(){
+  let q=round[pos],multi=q.answer.length>1;
+  if(!optionOrder[pos])optionOrder[pos]=shuffle(q.options); // 每題的順序只在第一次顯示時決定，之後（例如按標記）不再重新洗牌
+  let displayOptions=optionOrder[pos];
+  let st=states[pos]; // 這題若已作答過，st 會是 {chosen, correct}
+
+  $('#quiz').innerHTML=`<div class="top"><div class="meta"><span>第 ${pos+1}/${round.length} 題</span><span>題號 ${q.questionNumber}${multi?'（複選）':''}</span></div><button id="mark" class="star ${record.marked[key(q)]?'marked':''}">${record.marked[key(q)]?'★ 已標記':'☆ 標記題目'}</button></div><div class="progress"><i style="width:${pos/round.length*100}%"></i></div><div class="question">${safe(q.question)}</div><div class="options">${displayOptions.map((o,shownIndex)=>`<button class="opt" data-option="${o.optionNumber}"><input type="${multi?'checkbox':'radio'}" name="answer" value="${o.optionNumber}" ${st&&st.chosen.includes(o.optionNumber)?'checked':''}><span><b>${shownIndex+1}.</b> ${safe(o.text)}</span></button>`).join('')}</div><div id="feedback"></div><div class="actions"><button id="prev" ${pos===0?'disabled':''}>上一題</button>${st?`<button id="next" class="primary">${pos===round.length-1?'完成測驗':'下一題'}</button>`:`<button id="submit" class="primary">確認答案</button>`}</div>`;
+
+  document.querySelectorAll('.opt').forEach(b=>{
+    let n=+b.dataset.option;
+    if(st){
+      // 已作答：呈現對/錯結果，選項鎖定
+      b.querySelector('input').disabled=true;
+      if(q.answer.includes(n))b.classList.add('correct');
+      if(st.chosen.includes(n)&&!q.answer.includes(n))b.classList.add('wrong');
+      if(st.chosen.includes(n))b.classList.add('selected')
+    }else{
+      // 尚未作答：可以正常勾選
+      b.onclick=e=>{
+        e.preventDefault();
+        let x=b.querySelector('input');
+        if(multi)x.checked=!x.checked;
+        else{document.querySelectorAll('.opt input').forEach(y=>y.checked=false);x.checked=true}
+        document.querySelectorAll('.opt').forEach(y=>y.classList.toggle('selected',y.querySelector('input').checked))
+      }
+    }
+  });
+
+  // 標記按鈕只切換自己的樣式與資料，不會整個重繪題目，避免選項重新洗牌、已選答案被清空
+  $('#mark').onclick=()=>{
+    let k=key(q);
+    if(record.marked[k])delete record.marked[k];
+    else record.marked[k]=q;
+    save();
+    updateMarkButton(q)
+  };
+
+  $('#prev').onclick=()=>{if(pos>0){pos--;render()}};
+
+  if(st){
+    $('#next').onclick=()=>{
+      if(pos===round.length-1){page('setup');alert('測驗完成！')}
+      else{pos++;render()}
+    }
+  }else{
+    $('#submit').onclick=()=>grade(q)
+  }
+}
+
+function grade(q){
+  let chosen=[...document.querySelectorAll('.opt input:checked')].map(x=>+x.value).sort((a,b)=>a-b);
+  if(!chosen.length)return alert('請先選擇答案。');
+  let ans=[...q.answer].sort((a,b)=>a-b);
+  let ok=chosen.length===ans.length&&chosen.every((x,i)=>x===ans[i]);
+  let k=key(q);
+  if(ok)delete record.wrong[k];
+  else{
+    record.wrong[k]={time:Date.now(),selected:chosen,question:q};
+    record.errors[k]=(record.errors[k]||0)+1;
+    record.marked[k]=q
+  }
+  states[pos]={chosen,correct:ok};
+  save();
+  render()
+}
+
+function startWrong(){
+  let list=Object.values(record.wrong).map(v=>v.question).sort((a,b)=>a.questionNumber-b.questionNumber);
+  if(!list.length){alert('目前沒有需要複習的錯題。');return}
+  startRound(list)
+}
+
+function startMarkedReview(){
+  let list=Object.values(record.marked).sort((a,b)=>a.questionNumber-b.questionNumber);
+  if(!list.length){alert('目前沒有需要複習的標記題目。');return}
+  startRound(list)
+}
+
+function showMarkedReview(){
+  let items=Object.values(record.marked),target=$('#markedReviewContent');
+  if(!items.length){target.innerHTML='<p class="empty">目前沒有標記題目。</p>';return}
+  target.innerHTML=`<p class="hint">共 ${items.length} 題標記題目。答錯會持續累計錯誤次數；答對不會自動移除標記。</p><div class="actions"><button id="reviewMarked" class="primary">開始標記題目複習</button></div>`;
+  $('#reviewMarked').onclick=startMarkedReview
+}
+
+function showList(type){
+  // 標記／錯題清單一律以紀錄本身（record）為主，不再依賴目前題庫（bank）比對題號，
+  // 這樣即使匯入新題庫、題號剛好重複但題目不同，舊的標記／錯題仍然看得到、練習得到。
+  let items = type==='wrong'
+    ? Object.values(record.wrong).map(v=>v.question)
+    : Object.values(record.marked);
+  let target=$('#'+type+'List');
+
+  items = type==='marked'
+    ? items.slice().sort((a,b)=>(record.errors[key(b)]||0)-(record.errors[key(a)]||0)||a.questionNumber-b.questionNumber)
+    : items.slice().sort((a,b)=>a.questionNumber-b.questionNumber);
+
+  if(!items.length){target.innerHTML=`<p class="empty">目前沒有${type==='wrong'?'錯題':'標記題目'}。</p>`;return}
+
+  if(type==='wrong'){
+    target.innerHTML=`<p class="hint">共 ${items.length} 題待複習。答對後會自錯題清單移除；錯誤次數仍會保留在標記題目中。</p><div class="actions"><button id="reviewWrong" class="primary">開始錯題複習</button></div>`;
+    $('#reviewWrong').onclick=startWrong;
+    return
+  }
+
+  target.innerHTML=items.map((q,idx)=>`<div class="item"><div class="top"><b>題號 ${q.questionNumber}</b><button class="danger removeMark" data-idx="${idx}">移除標記</button></div>${details(q)}<p class="hint"><b>錯誤次數：</b>${record.errors[key(q)]||0} 次</p></div>`).join('');
+
+  target.querySelectorAll('.removeMark').forEach(b=>b.onclick=()=>{
+    let q=items[+b.dataset.idx];
+    delete record.marked[key(q)];
+    save();
+    showList('marked')
+  })
+}
+
+let migrated=migrateRecord();
+update();
+if(migrated>=0){
+  $('#notice').innerHTML = migrated>0
+    ? `<p class="status ok">已將舊格式的標記／錯題資料轉換為新格式（有 ${migrated} 筆在目前題庫中找不到對應題目，已略過）。若題庫內容曾經更動過，轉換可能配對到錯的題目，請留意「標記題目」清單，如有不是自己標記的題目請按「移除標記」拿掉。</p>`
+    : `<p class="status ok">已將舊格式的標記／錯題資料轉換為新格式。若題庫內容曾經更動過，轉換可能配對到錯的題目，請留意「標記題目」清單，如有不是自己標記的題目請按「移除標記」拿掉。</p>`
+}
+if(localStorage.getItem(RK+'_backup')){
+  $('#restoreBackupWrap').innerHTML='<button id="restoreBackup" class="danger tiny">復原轉換前紀錄</button>';
+  $('#restoreBackup').onclick=restoreBackup
+}
+})();
 </script></body></html>
-
-
-
-
-
-
-
-
-
-
-
-
-
