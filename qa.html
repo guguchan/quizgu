@@ -239,17 +239,23 @@ function startWrong(){
   startRound(list)
 }
 
-function startMarkedReview(){
-  let list=Object.values(record.marked).sort((a,b)=>a.questionNumber-b.questionNumber);
+function startMarkedReview(amount,sortMode){
+  let list=Object.values(record.marked);
   if(!list.length){alert('目前沒有需要複習的標記題目。');return}
+  list = sortMode==='number' ? list.slice().sort((a,b)=>a.questionNumber-b.questionNumber) : shuffle(list);
+  if(Number.isInteger(amount)&&amount>0)list=list.slice(0,Math.min(amount,list.length));
   startRound(list)
 }
 
 function showMarkedReview(){
   let items=Object.values(record.marked),target=$('#markedReviewContent');
   if(!items.length){target.innerHTML='<p class="empty">目前沒有標記題目。</p>';return}
-  target.innerHTML=`<p class="hint">共 ${items.length} 題標記題目。答錯會持續累計錯誤次數；答對不會自動移除標記。</p><div class="actions"><button id="reviewMarked" class="primary">開始標記題目複習</button></div>`;
-  $('#reviewMarked').onclick=startMarkedReview
+  target.innerHTML=`<p class="hint">共 ${items.length} 題標記題目。答錯會持續累計錯誤次數；答對不會自動移除標記。</p><label>複習題數</label><input id="markedReviewAmount" type="number" min="1" value="${Math.min(30,items.length)}"><label>出題順序</label><select id="markedReviewSort"><option value="random" selected>隨機出題</option><option value="number">依題號順序</option></select><div class="actions"><button id="reviewMarked" class="primary">開始標記題目複習</button></div>`;
+  $('#reviewMarked').onclick=()=>{
+    let n=+$('#markedReviewAmount').value;
+    if(!Number.isInteger(n)||n<1)return alert('請輸入有效的複習題數。');
+    startMarkedReview(n,$('#markedReviewSort').value)
+  }
 }
 
 function showList(type){
