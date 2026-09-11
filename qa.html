@@ -103,7 +103,7 @@ function update(){
   let yes=bank.length;
   $('#settings').classList.toggle('hidden',!yes);
   $('#bankInfo').textContent=yes?`已載入 ${bank.length} 題（題號 ${bank[0].questionNumber}～${bank.at(-1).questionNumber}）`:'請先匯入題庫。';
-  if(yes){$('#first').value=bank[0].questionNumber;$('#last').value=bank.at(-1).questionNumber;$('#amount').value=bank.length}
+  if(yes){$('#first').value=bank[0].questionNumber;$('#last').value=bank.at(-1).questionNumber;$('#amount').value=Math.min(30,bank.length)}
 }
 
 $('#file').onchange=async e=>{
@@ -152,7 +152,8 @@ $('#home').onclick=()=>page('setup');
 function syncAmount(){
   let a=+$('#first').value,b=+$('#last').value;
   if(!Number.isFinite(a)||!Number.isFinite(b))return;
-  $('#amount').value=bank.filter(q=>q.questionNumber>=a&&q.questionNumber<=b).length
+  let count=bank.filter(q=>q.questionNumber>=a&&q.questionNumber<=b).length;
+  $('#amount').value=Math.min(30,count)
 }
 $('#first').oninput=syncAmount;
 $('#last').oninput=syncAmount;
