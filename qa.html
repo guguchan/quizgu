@@ -4,7 +4,7 @@
 .question{font-size:1.2rem}.opt{font-size:1.2rem}
 @media(min-width:768px){body{font-size:21px}.app{max-width:92vw;width:1050px}h1{font-size:1.6rem}h2{font-size:1.4rem}.question{font-size:1.5rem;line-height:1.85}.reviewOption{font-size:1.3rem}.opt{font-size:1.5rem;padding:16px}label{font-size:1.1rem}.hint,.empty,.meta{font-size:1.1rem}.toast{font-size:1.25rem;padding:13px 26px;top:22px}button{min-height:50px}}
 </style></head><body><div class="app"><header><h1>題庫練習</h1><div class="headerActions"><button id="erase" class="danger tiny">清除資料</button><button id="home" class="hidden">回設定</button></div></header><nav class="tabs"><button class="tab active" data-page="setup">開始練習</button><button class="tab" data-page="wrong">錯題複習</button><button class="tab" data-page="marked">標記題目</button><button class="tab" data-page="markedReview">標記題目複習</button></nav><main>
-<section id="setup"><div class="card"><h2>匯入題庫</h2><p class="hint">請選擇 JSON 題庫檔。</p><input id="file" type="file" accept=".json,application/json"><div id="notice"></div></div><div class="card"><h2>測驗設定</h2><p id="bankInfo" class="empty">請先匯入題庫。</p><div id="settings" class="hidden"><div class="row"><div><label>起始題號</label><input id="first" type="number"></div><div><label>結束題號</label><input id="last" type="number"></div></div><label>測驗題數</label><input id="amount" type="number" min="1"><label>出題順序</label><div class="radioRow inline" id="sort"><label><input type="radio" name="sortOrder" value="random" checked>隨機抽題</label><label><input type="radio" name="sortOrder" value="number">依題號順序</label></div><div class="actions"><button id="begin" class="primary">開始測驗</button></div></div></div></section>
+<section id="setup"><div class="card"><h2>匯入題庫</h2><p class="hint">請選擇 JSON 題庫檔。</p><input id="file" type="file" accept=".json,application/json"><div id="notice"></div></div><div class="card"><h2>測驗設定</h2><p id="bankInfo" class="empty">請先匯入題庫。</p><div id="settings" class="hidden"><div class="row"><div><label>起始題號</label><input id="first" type="number"></div><div><label>結束題號</label><input id="last" type="number"></div></div><label>測驗題數</label><input id="amount" type="number" min="1"><label>出題順序</label><div class="radioRow inline" id="sort"><label><input type="radio" name="sortOrder" value="random" checked>隨機抽題</label><label><input type="radio" name="sortOrder" value="number">依題號順序</label></div><div class="actions"><button id="begin" class="primary">開始測驗</button></div></div></div><div class="card"><h2>紀錄匯出／匯入</h2><p class="hint">匯出目前的錯題、標記（含錯誤次數與連續答對次數），可在電腦上用文字編輯器修改題目、選項、答案後再匯入。匯入會「整份取代」目前紀錄，匯入前會自動備份；匯出後到匯入前，請不要在這台練習，否則匯入時會被蓋掉。</p><div class="actions"><button id="exportRec">匯出紀錄</button></div><textarea id="exportBox" class="hidden" readonly rows="6" style="width:100%;margin-top:12px;padding:10px;border:1px solid #b8c6d8;border-radius:10px;font:13px monospace"></textarea><label>匯入紀錄檔</label><input id="recFile" type="file" accept=".json,application/json"><div id="recNotice"></div></div></section>
 <section id="practice" class="hidden"><div id="quiz" class="card"></div></section><section id="wrong" class="hidden"><div class="card"><h2>錯題複習</h2><div id="wrongList"></div></div></section><section id="marked" class="hidden"><div class="card"><h2>標記題目</h2><div id="markedList"></div></div></section><section id="markedReview" class="hidden"><div class="card"><h2>標記題目複習</h2><div id="markedReviewContent"></div></div></section></main><button id="backToTop" class="fab hidden" title="回到頂部"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M5 12l7-7 7 7"/></svg></button><div id="toast" class="toast"></div></div><script>
 (()=>{
 const BK='privateQuizBank1', RK='privateQuizRecord1', $=s=>document.querySelector(s);
@@ -350,6 +350,101 @@ function showList(type){
     showList('marked')
   })
 }
+
+// <rec-io>
+function validateQ(q,label){
+  if(!q||typeof q!=='object')throw Error(label+'：缺少 question 內容。');
+  if(!Number.isInteger(q.questionNumber))throw Error(label+'：questionNumber 必須是整數。');
+  if(typeof q.question!=='string'||!q.question)throw Error(label+'：題目文字不可空白。');
+  if(!Array.isArray(q.options)||!q.options.length)throw Error(label+'：options 至少要有一個選項。');
+  let nums=new Set();
+  q.options.forEach(o=>{
+    if(!o||!Number.isInteger(o.optionNumber)||typeof o.text!=='string')throw Error(label+'：選項格式有誤（需要 optionNumber 與 text）。');
+    if(nums.has(o.optionNumber))throw Error(label+'：選項編號 '+o.optionNumber+' 重複。');
+    nums.add(o.optionNumber)
+  });
+  if(!Array.isArray(q.answer)||!q.answer.length||!q.answer.every(a=>Number.isInteger(a)&&nums.has(a)))throw Error(label+'：answer 必須是存在於選項中的編號。')
+}
+
+// 把目前紀錄轉成好編輯的格式：每一題一筆，題目快照集中在 question，內部識別碼匯入時再重新產生
+function buildExport(rec){
+  let keys=new Set([...Object.keys(rec.marked),...Object.keys(rec.wrong)]),items=[];
+  keys.forEach(k=>{
+    let mq=rec.marked[k],w=rec.wrong[k],wq=w&&w.question,q=mq||wq;
+    if(!q)return;
+    let it={question:q,marked:!!mq,wrong:!!w,errors:rec.errors[k]||0,streak:(rec.streaks&&rec.streaks[k])||0};
+    if(w){
+      it.wrongTime=w.time||0;it.selected=w.selected||[];
+      if(mq&&wq&&JSON.stringify(mq)!==JSON.stringify(wq))it.wrongQuestion=wq
+    }
+    items.push(it)
+  });
+  items.sort((a,b)=>a.question.questionNumber-b.question.questionNumber);
+  let oe={},os={};
+  for(const k in rec.errors)if(!keys.has(k))oe[k]=rec.errors[k];
+  for(const k in (rec.streaks||{}))if(!keys.has(k))os[k]=rec.streaks[k];
+  return {app:'quiz-record',version:1,exportedAt:new Date().toISOString(),items,orphanErrors:oe,orphanStreaks:os}
+}
+
+// 解析並驗證匯入檔；任何錯誤都直接丟出例外，不會寫入任何資料
+function parseImport(text){
+  let d;
+  try{d=JSON.parse(text)}catch{throw Error('檔案不是有效的 JSON，請檢查括號、逗號、引號是否被改壞。')}
+  if(!d||d.app!=='quiz-record'||!Array.isArray(d.items))throw Error('這不是由本工具匯出的紀錄檔。');
+  let nm={},nw={},ne={},ns={},seen=new Map();
+  d.items.forEach((it,i)=>{
+    let label='第 '+(i+1)+' 筆';
+    validateQ(it&&it.question,label);
+    let k=key(it.question);
+    if(seen.has(k))throw Error(label+'與第 '+(seen.get(k)+1)+' 筆的「題號＋題目文字」完全相同，請修改其中一筆。');
+    seen.set(k,i);
+    if(it.marked)nm[k]=it.question;
+    if(it.wrong){
+      let wq=it.question;
+      if(it.wrongQuestion){validateQ(it.wrongQuestion,label+'（錯題版本）');wq=it.wrongQuestion}
+      nw[k]={time:Number(it.wrongTime)||Date.now(),selected:Array.isArray(it.selected)?it.selected:[],question:wq}
+    }
+    if(Number(it.errors)>0)ne[k]=Number(it.errors);
+    if(Number(it.streak)>0)ns[k]=Number(it.streak)
+  });
+  for(const k in (d.orphanErrors||{}))if(!(k in ne)&&Number(d.orphanErrors[k])>0)ne[k]=Number(d.orphanErrors[k]);
+  for(const k in (d.orphanStreaks||{}))if(!(k in ns)&&Number(d.orphanStreaks[k])>0)ns[k]=Number(d.orphanStreaks[k]);
+  return {nm,nw,ne,ns}
+}
+// </rec-io>
+
+function stamp(){
+  let d=new Date(),z=n=>String(n).padStart(2,'0');
+  return ''+d.getFullYear()+z(d.getMonth()+1)+z(d.getDate())+'-'+z(d.getHours())+z(d.getMinutes())
+}
+
+$('#exportRec').onclick=()=>{
+  let data=buildExport(record);
+  if(!data.items.length)return alert('目前沒有錯題或標記可以匯出。');
+  let text=JSON.stringify(data,null,2),name='quiz-record-'+stamp()+'.json';
+  let box=$('#exportBox');box.value=text;box.classList.remove('hidden');
+  try{
+    let blob=new Blob([text],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000)
+  }catch{}
+  $('#recNotice').innerHTML='<p class="status ok">已產生 '+data.items.length+' 題的匯出內容（檔名 '+safe(name)+'）。若沒有跳出下載，可長按上方文字框全選並拷貝，貼到電腦存成 .json 檔。</p>'
+};
+
+$('#recFile').onchange=async e=>{
+  let f=e.target.files[0];if(!f)return;
+  try{
+    let r=parseImport(await f.text()),nM=Object.keys(r.nm).length,nW=Object.keys(r.nw).length;
+    if(!confirm('匯入後會用這個檔案「整份取代」目前的紀錄：標記題目 '+nM+' 題、錯題 '+nW+' 題。\n目前的紀錄會先自動備份。\n\n確定要匯入嗎？')){e.target.value='';return}
+    try{localStorage.setItem(RK+'_importbackup',JSON.stringify(record))}catch{}
+    record.marked=r.nm;record.wrong=r.nw;record.errors=r.ne;record.streaks=r.ns;
+    save();
+    $('#recNotice').innerHTML='<p class="status ok">匯入完成：標記題目 '+nM+' 題、錯題 '+nW+' 題。</p>'
+  }catch(err){
+    $('#recNotice').innerHTML='<p class="status bad">匯入失敗，目前的紀錄沒有被改動：'+safe(err.message)+'</p>'
+  }
+  e.target.value=''
+};
 
 let migrated=migrateRecord();
 update();
