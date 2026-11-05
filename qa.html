@@ -3,11 +3,11 @@
 :root{--blue:#2563eb;--line:#d8e1ed;--good:#15803d;--bad:#b91c1c}*{box-sizing:border-box}body{margin:0;background:#f4f7fb;color:#172033;font:18px system-ui,-apple-system,"Noto Sans TC",sans-serif}.app{max-width:760px;min-height:100vh;margin:auto;background:#fff}header{padding:18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}h1{font-size:1.2rem;margin:0}h2{font-size:1.07rem;margin:0 0 10px}main{padding:16px}.tabs,.row,.actions,.top,.meta{display:flex;gap:9px}.tabs{padding:12px 16px;overflow:auto;border-bottom:1px solid var(--line)}.meta,.top{justify-content:space-between;align-items:center}.meta{color:#64748b;font-size:.9rem}.row>*{flex:1}.actions{margin-top:14px}.actions button{flex:1}.card{border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:16px}.headerActions{display:flex;gap:8px}.tiny{min-height:36px;padding:7px 10px;font-size:.82rem}.hidden{display:none!important}label{display:block;margin:12px 0 6px;font-weight:700;font-size:.9rem}input,select,button{font:inherit}input,select{width:100%;padding:11px;border:1px solid #b8c6d8;border-radius:10px}button{min-height:43px;padding:10px 13px;border:0;border-radius:10px;background:#e8eef7;color:#26354a;font-weight:700;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.fab{position:fixed;right:20px;bottom:24px;width:56px;height:56px;min-height:0;padding:0;border-radius:50%;font-size:1.5rem;line-height:1;color:#fff;border:3px solid #fff;background:linear-gradient(150deg,#7db8ff,#4f86f7);box-shadow:0 8px 18px rgba(79,134,247,.45),0 2px 5px rgba(79,134,247,.3);transition:transform .15s ease,border-radius .25s ease;animation:fabPop .35s ease;z-index:50;display:flex;align-items:center;justify-content:center}.fab:hover{border-radius:42% 58% 55% 45%/55% 45% 58% 42%}.fab:active{transform:scale(.86)}@keyframes fabPop{0%{transform:scale(0)}65%{transform:scale(1.18)}100%{transform:scale(1)}}.toast{position:fixed;left:50%;top:16px;transform:translate(-50%,-14px);padding:9px 18px;border-radius:999px;color:#fff;font-weight:700;font-size:.92rem;box-shadow:0 8px 18px rgba(23,32,51,.28);z-index:80;pointer-events:none;opacity:0;transition:opacity .2s ease,transform .2s ease}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.ok{background:#16a34a}.toast.bad{background:#dc2626}.radioRow{display:flex;flex-direction:column;gap:9px;margin:6px 0 14px}.radioRow label{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;font-weight:600;cursor:pointer}.radioRow input[type=radio]{width:18px;height:18px;margin:0;accent-color:var(--blue)}.radioRow label.checked{border-color:var(--blue);background:#eff6ff;color:var(--blue)}.radioRow.inline{flex-direction:row}.radioRow.inline label{flex:1;justify-content:center}.primary,.active{background:var(--blue);color:#fff}.danger{background:#fee2e2;color:#991b1b}.hint,.empty{color:#64748b;line-height:1.6;font-size:.9rem}.privacy{border-left:4px solid #16a34a;background:#f0fdf4;color:#14532d;padding:12px;line-height:1.6;font-size:.9rem}.question{white-space:pre-wrap;font-size:1.1rem;line-height:1.75;margin:15px 0}.options{display:grid;gap:9px}.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;background:white;border:1px solid #cbd5e1}.opt input{width:auto;margin-top:4px}.selected{border-color:var(--blue);background:#eff6ff}.correct{border-color:#22c55e;background:#f0fdf4}.wrong{border-color:#ef4444;background:#fef2f2}.status{margin-top:12px;padding:11px;border-radius:10px}.ok{background:#dcfce7;color:#166534}.bad{background:#fee2e2;color:#991b1b}.progress{height:7px;background:#e5e7eb;border-radius:10px;margin:14px 0}.progress i{display:block;height:100%;background:var(--blue)}.star{min-height:auto;background:#fff7ed;color:#a16207}.marked{background:#f59e0b;color:white}.item{padding:13px 0;border-bottom:1px solid var(--line)}.reviewOption{padding:9px 12px;margin:6px 0;border-radius:8px;background:#f8fafc;font-size:1.1rem;line-height:1.6}.reviewCorrect{background:#dcfce7;color:#166534;font-weight:700}@media(max-width:480px){main,header,.tabs{padding-left:13px;padding-right:13px}.card{padding:13px}}
 .question{font-size:1.2rem}.opt{font-size:1.2rem}
 @media(min-width:768px){body{font-size:21px}.app{max-width:92vw;width:1050px}h1{font-size:1.6rem}h2{font-size:1.4rem}.question{font-size:1.5rem;line-height:1.85}.reviewOption{font-size:1.3rem}.opt{font-size:1.5rem;padding:16px}label{font-size:1.1rem}.hint,.empty,.meta{font-size:1.1rem}.toast{font-size:1.25rem;padding:13px 26px;top:22px}button{min-height:50px}}
-</style></head><body><div class="app"><header><h1>題庫練習</h1><div class="headerActions"><button id="erase" class="danger tiny">清除資料</button><button id="home" class="hidden">回設定</button></div></header><nav class="tabs"><button class="tab active" data-page="setup">開始練習</button><button class="tab" data-page="wrong">錯題複習</button><button class="tab" data-page="marked">標記題目</button><button class="tab" data-page="markedReview">標記題目複習</button></nav><main>
+</style></head><body><div class="app"><header><h1>題庫練習</h1><div class="headerActions"><button id="erase" class="danger tiny">清除資料</button><button id="home" class="hidden">回設定</button></div></header><nav class="tabs"><button class="tab active" data-page="setup">開始練習</button><button class="tab" data-page="wrong">錯題複習</button><button class="tab" data-page="marked">標記題目</button><button class="tab" data-page="markedReview">標記題目複習</button><button class="tab" data-page="drill">刷錯題</button></nav><main>
 <section id="setup"><div class="card"><h2>匯入題庫</h2><p class="hint">請選擇 JSON 題庫檔。</p><input id="file" type="file" accept=".json,application/json"><div id="notice"></div></div><div class="card"><h2>測驗設定</h2><p id="bankInfo" class="empty">請先匯入題庫。</p><div id="settings" class="hidden"><div class="row"><div><label>起始題號</label><input id="first" type="number"></div><div><label>結束題號</label><input id="last" type="number"></div></div><label>測驗題數</label><input id="amount" type="number" min="1"><label>出題順序</label><div class="radioRow inline" id="sort"><label><input type="radio" name="sortOrder" value="random" checked>隨機抽題</label><label><input type="radio" name="sortOrder" value="number">依題號順序</label></div><div class="actions"><button id="begin" class="primary">開始測驗</button></div></div></div><div class="card"><h2>紀錄匯出／匯入</h2><p class="hint">匯出目前的錯題、標記（含錯誤次數與連續答對次數），可在電腦上用文字編輯器修改題目、選項、答案後再匯入。匯入會「整份取代」目前紀錄，匯入前會自動備份；匯出後到匯入前，請不要在這台練習，否則匯入時會被蓋掉。</p><div class="actions"><button id="exportRec">匯出紀錄</button></div><textarea id="exportBox" class="hidden" readonly rows="6" style="width:100%;margin-top:12px;padding:10px;border:1px solid #b8c6d8;border-radius:10px;font:13px monospace"></textarea><label>匯入紀錄檔</label><input id="recFile" type="file" accept=".json,application/json"><div id="recNotice"></div></div></section>
-<section id="practice" class="hidden"><div id="quiz" class="card"></div></section><section id="wrong" class="hidden"><div class="card"><h2>錯題複習</h2><div id="wrongList"></div></div></section><section id="marked" class="hidden"><div class="card"><h2>標記題目</h2><div id="markedList"></div></div></section><section id="markedReview" class="hidden"><div class="card"><h2>標記題目複習</h2><div id="markedReviewContent"></div></div></section></main><button id="backToTop" class="fab hidden" title="回到頂部"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M5 12l7-7 7 7"/></svg></button><div id="toast" class="toast"></div></div><script>
+<section id="practice" class="hidden"><div id="quiz" class="card"></div></section><section id="wrong" class="hidden"><div class="card"><h2>錯題複習</h2><div id="wrongList"></div></div></section><section id="marked" class="hidden"><div class="card"><h2>標記題目</h2><div id="markedList"></div></div></section><section id="markedReview" class="hidden"><div class="card"><h2>標記題目複習</h2><div id="markedReviewContent"></div></div></section><section id="drill" class="hidden"><div class="card"><h2>刷錯題</h2><div id="drillContent"></div></div></section></main><button id="backToTop" class="fab hidden" title="回到頂部"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M5 12l7-7 7 7"/></svg></button><div id="toast" class="toast"></div></div><script>
 (()=>{
-const BK='privateQuizBank1', RK='privateQuizRecord1', $=s=>document.querySelector(s);
+const BK='privateQuizBank1', RK='privateQuizRecord1', DK='privateQuizDrill1', $=s=>document.querySelector(s);
 const safe=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 let bank=load(BK,[]);
@@ -18,7 +18,8 @@ if(!record.marked)record.marked={};
 if(!record.errors)record.errors={};
 if(!record.streaks)record.streaks={};
 
-let round=[],pos=0;
+let round=[],pos=0,drill=false;
+let drillBank=load(DK,[]); // 「刷錯題」專用題庫：獨立儲存，不影響原本的題庫與紀錄
 let states=[];      // 每一題的作答狀態快取：null（尚未作答）或 {chosen:[...], correct:bool}
 let optionOrder=[]; // 每一題的選項顯示順序快取，避免重新 render 時選項亂跳
 
@@ -124,11 +125,12 @@ $('#erase').onclick=()=>{
 };
 
 function page(name){
-  ['setup','practice','wrong','marked','markedReview'].forEach(x=>$('#'+x).classList.toggle('hidden',x!==name));
+  ['setup','practice','wrong','marked','markedReview','drill'].forEach(x=>$('#'+x).classList.toggle('hidden',x!==name));
   document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page===name));
   $('#home').classList.toggle('hidden',name==='setup');
   if(name==='wrong'||name==='marked')showList(name);
   if(name==='markedReview')showMarkedReview();
+  if(name==='drill')showDrill();
   window.scrollTo(0,0);
   syncBackToTop()
 }
@@ -164,8 +166,8 @@ $('#begin').onclick=()=>{
   startRound(p.slice(0,Math.min(n,p.length)))
 };
 
-function startRound(list){
-  round=list;pos=0;
+function startRound(list,isDrill){
+  drill=!!isDrill;round=list;pos=0;
   states=round.map(()=>null);
   optionOrder=round.map(()=>null);
   page('practice');render()
@@ -184,7 +186,7 @@ function render(){
   let displayOptions=optionOrder[pos];
   let st=states[pos]; // 這題若已作答過，st 會是 {chosen, correct}
 
-  $('#quiz').innerHTML=`<div class="top"><div class="meta"><span>第 ${pos+1}/${round.length} 題</span><span>題號 ${q.questionNumber}${multi?'（複選）':''}</span></div><button id="mark" class="star ${record.marked[key(q)]?'marked':''}">${record.marked[key(q)]?'★ 已標記':'☆ 標記題目'}</button></div><div class="progress"><i style="width:${pos/round.length*100}%"></i></div><div class="question">${safe(q.question)}</div><div class="options">${displayOptions.map((o,shownIndex)=>`<button class="opt" data-option="${o.optionNumber}"><input type="${multi?'checkbox':'radio'}" name="answer" value="${o.optionNumber}" ${st&&st.chosen.includes(o.optionNumber)?'checked':''}><span><b>${shownIndex+1}.</b> ${safe(o.text)}</span></button>`).join('')}</div><div id="feedback"></div><div class="actions"><button id="prev" ${pos===0?'disabled':''}>上一題</button>${st?`<button id="next" class="primary">${pos===round.length-1?'完成測驗':'下一題'}</button>`:`<button id="submit" class="primary">確認答案</button>`}</div>`;
+  $('#quiz').innerHTML=`<div class="top"><div class="meta"><span>第 ${pos+1}/${round.length} 題</span><span>題號 ${q.questionNumber}${multi?'（複選）':''}</span></div>${drill?'':`<button id="mark" class="star ${record.marked[key(q)]?'marked':''}">${record.marked[key(q)]?'★ 已標記':'☆ 標記題目'}</button>`}</div><div class="progress"><i style="width:${pos/round.length*100}%"></i></div><div class="question">${safe(q.question)}</div><div class="options">${displayOptions.map((o,shownIndex)=>`<button class="opt" data-option="${o.optionNumber}"><input type="${multi?'checkbox':'radio'}" name="answer" value="${o.optionNumber}" ${st&&st.chosen.includes(o.optionNumber)?'checked':''}><span><b>${shownIndex+1}.</b> ${safe(o.text)}</span></button>`).join('')}</div><div id="feedback"></div><div class="actions"><button id="prev" ${pos===0?'disabled':''}>上一題</button>${st?`<button id="next" class="primary">${pos===round.length-1?'完成測驗':'下一題'}</button>`:`<button id="submit" class="primary">確認答案</button>`}</div>`;
 
   document.querySelectorAll('.opt').forEach(b=>{
     let n=+b.dataset.option;
@@ -207,7 +209,7 @@ function render(){
   });
 
   // 標記按鈕只切換自己的樣式與資料，不會整個重繪題目，避免選項重新洗牌、已選答案被清空
-  $('#mark').onclick=()=>{
+  if($('#mark'))$('#mark').onclick=()=>{
     let k=key(q);
     if(record.marked[k])delete record.marked[k];
     else record.marked[k]=q;
@@ -219,7 +221,7 @@ function render(){
 
   if(st){
     $('#next').onclick=()=>{
-      if(pos===round.length-1){page('setup');alert('測驗完成！')}
+      if(pos===round.length-1){page(drill?'drill':'setup');alert('測驗完成！')}
       else{pos++;render()}
     }
   }else{
@@ -260,6 +262,12 @@ function grade(q){
   if(!chosen.length)return alert('請先選擇答案。');
   let ans=[...q.answer].sort((a,b)=>a-b);
   let ok=chosen.length===ans.length&&chosen.every((x,i)=>x===ans[i]);
+  if(drill){
+    showToast(ok?'答對':'答錯',ok?'ok':'bad');
+    states[pos]={chosen,correct:ok};
+    render();
+    return
+  }
   let k=key(q);
   if(ok){
     if(record.wrong[k]){
@@ -445,6 +453,38 @@ $('#recFile').onchange=async e=>{
   }
   e.target.value=''
 };
+
+// ---- 刷錯題：單純刷題，不記錄錯題、不累計錯誤次數、不能標記；題號可重複、可混多個科目 ----
+function showDrill(msg){
+  let n=drillBank.length,t=$('#drillContent');
+  t.innerHTML=`<p class="hint">單純刷題用：不記錄錯題、不累計錯誤次數、不能標記，題號可以重複（可混放多個科目）。這份題庫與原本的題庫、錯題、標記互相獨立，出題一律隨機。</p><label>匯入刷錯題題庫（JSON，匯入會取代原本的刷錯題題庫）</label><input id="drillFile" type="file" accept=".json,application/json"><div id="drillNotice">${msg||''}</div>`+(n?`<p class="hint" style="margin-top:14px">已載入 ${n} 題。</p><label>測驗題數</label><input id="drillAmount" type="number" min="1" value="${Math.min(30,n)}"><div class="actions"><button id="drillBegin" class="primary">開始刷題</button></div><div class="actions"><button id="drillClear" class="danger">清除刷錯題題庫</button></div>`:'<p class="empty" style="margin-top:12px">尚未匯入刷錯題題庫。</p>');
+  $('#drillFile').onchange=async e=>{
+    let f=e.target.files[0];if(!f)return;
+    try{
+      let data=JSON.parse(await f.text());
+      if(!Array.isArray(data)||!data.length)throw Error('JSON 必須是至少一題的陣列。');
+      data.forEach((q,i)=>validateQ(q,'第 '+(i+1)+' 題'));
+      drillBank=data;
+      localStorage.setItem(DK,JSON.stringify(drillBank));
+      showDrill('<p class="status ok">已匯入 '+drillBank.length+' 題（題號重複沒有關係）。</p>')
+    }catch(err){
+      $('#drillNotice').innerHTML='<p class="status bad">匯入失敗：'+safe(err.message)+'</p>';
+      e.target.value=''
+    }
+  };
+  if(n){
+    $('#drillBegin').onclick=()=>{
+      let c=+$('#drillAmount').value;
+      if(!Number.isInteger(c)||c<1)return alert('請輸入有效的題數。');
+      startRound(shuffle(drillBank).slice(0,Math.min(c,drillBank.length)),true)
+    };
+    $('#drillClear').onclick=()=>{
+      if(!confirm('確定清除刷錯題題庫？（不會影響原本的題庫、錯題與標記）'))return;
+      drillBank=[];localStorage.removeItem(DK);
+      showDrill('<p class="status">刷錯題題庫已清除。</p>')
+    }
+  }
+}
 
 let migrated=migrateRecord();
 update();
